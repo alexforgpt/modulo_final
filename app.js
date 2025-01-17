@@ -133,6 +133,25 @@ app.get('/api/price', (req, res) => {
     });
    
   });
+
+
+  const bands = [
+    {
+      "artist": "c4",
+      "band_members": ["C4 Pedro"]
+    },
+    {
+      "artist": "Queen",
+      "band_members":[ "Freddie Mercury",
+                        "Brian May",
+                        "Roger Taylor",
+                        "Jonh Deacon"]
+    },
+    {
+      "artist": "Adele",
+      "band_members": ["Adele"]
+    }
+  ]
   app.get('/api/songs/:id/band', (req,res) => {
     const id = req.params.id;
     const myQuery = `SELECT * FROM ${NOME_TABELA} WHERE id = ${id}`;
@@ -147,6 +166,25 @@ app.get('/api/price', (req, res) => {
     });
    
   });
+  app.post('/api/songs/:id/band', (req, res) => {
+    const band_members = req.band_members;
+    const myQuery = `SELECT artist FROM ${NOME_TABELA} WHERE id = ${id}`;
+    connection.query(query, (err, results) => {
+      if (err) {
+        return res.status(404).send('Erro a adicionar artista a banda  ' + err.message);
+      }
+    });
+    const arrtist= results[0].artist;
+    const newBand= {
+      "artist": "",
+      "band_members": band_members
+    }
+    band_members.push (newBand);
+   
+  });
+  
+   
+
  
  
 app.listen(port, () => {
