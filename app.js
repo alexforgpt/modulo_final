@@ -137,7 +137,7 @@ app.get('/api/price', (req, res) => {
 
   const bands = [
     {
-      "artist": "c4",
+      "artist": "Avenged Sevenfold",
       "band_members": ["C4 Pedro"]
     },
     {
@@ -156,32 +156,67 @@ app.get('/api/price', (req, res) => {
     const id = req.params.id;
     const myQuery = `SELECT * FROM ${NOME_TABELA} WHERE id = ${id}`;
     connection.query(myQuery, (err, results) => {
-      const artist = results[0].artist
-      for(let i = 0 ; i < bands.length; i++){
-      }
       if (err) {
         return res.status(404).send('Erro ao buscar banda: ' + err.message);
       }
-      res.json(results[0].artist);
+
+      const artist = results[0].artist
+      for(let i = 0 ; i < bands.length; i++){
+       if(artist==bands[i].artist) {
+        return res.json(bands[i]);
+       }
+
+
+
+
+
+      }
+      
     });
    
   });
   app.post('/api/songs/:id/band', (req, res) => {
     const band_members = req.band_members;
+    const id = req.params.id;
     const myQuery = `SELECT artist FROM ${NOME_TABELA} WHERE id = ${id}`;
-    connection.query(query, (err, results) => {
+     connection.query(myQuery, (err, results) => {
       if (err) {
         return res.status(404).send('Erro a adicionar artista a banda  ' + err.message);
       }
+      const arrtist= results[0].artist;
+      const newBand= {
+        "artist": "",
+        "band_members": band_members
+      }
+      bands.push (newBand);            
+      res.status(200).send('Membros da banda adicionados');
     });
-    const arrtist= results[0].artist;
-    const newBand= {
-      "artist": "",
-      "band_members": band_members
-    }
-    band_members.push (newBand);
    
   });
+  app.put('/api/songs/:id/band', (req, res) => {
+ 
+    const myQuery = `SELECT artist FROM ${NOME_TABELA} WHERE id = ${req.params.id}`;
+    connection.query(myQuery, (err, results) => {
+     
+      if (err) {
+          return res.status(500).send('Erro a aceder à base de dados: ' + err.message);
+      }
+      for (let i= 0; i < bands.length; i++){
+        if (bands[i].artist == results[0].artist) {
+          bands[i].band_members = req.body.band_members
+          return res.status(200).send("Membros atualizados")    
+        }
+      }
+      res.status(404).send("Membros  não atualizados")
+     
+    });
+    });
+     
+     
+
+
+
+  
   
    
 
