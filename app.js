@@ -12,6 +12,9 @@ const NOME_TABELA = "songs"
 // Middleware para parse de JSON no corpo dos pedidos
 app.use(express.json());
 
+app.set("view engine", "ejs");
+
+
 // Criar o servidor HTTP
 app.listen(port, () => {
   console.log(`Example app listening on http://localhost:${port}`)
@@ -481,6 +484,9 @@ app.post('/api/songs/bulk', (req, res) => {
 
 // ENDPOINTS DE FRONTEND
 
+app.get ('/',(req,res)=>{
+  res.render('index')
+})
 
 /*** 
 
