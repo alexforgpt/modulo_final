@@ -488,8 +488,17 @@ app.get ('/',(req,res)=>{
   res.render('index')
 })
 
+app.get ('/lista',(req,res)=>{
+  res.render('songs')
+})
+app.get ('/preço',(req,res)=>{
+  res.render('price')
+})
+app.get ('/form',(req,res)=>{
+  res.render('new-songs')
+})
 /*** 
-
+ 
 PARA ADICIONAR PARTE 2
 
 ***/

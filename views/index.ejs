@@ -3,18 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title> PSIFY </title>
 </head>
 <body>
-
-    <form action="/" method="get">
-        <button type="submit">Home</button>
-    </form>
-    <form action="/lista" method="get">
-        <button type="submit">Lista de compras</button>
-    </form>
-    <form action="/contacts" method="get">
-      <button type="submit">Contactos</button>
-    </form>
+    <%- include("header") %>
+ 
+    <h1> Bem-vindo à página inicial </h1>
+    <p> Esta é a página inicial da aplicação PSIFY. </p>
+    <p> Utilize o menu acima para navegar pelas diferentes funcionalidades da aplicação</p>
+    <p> Obter uma música </p>
+   
+    <form id="musicas"></form>
+    <label for="musicaid"> Id da música: </label>
+    <input type="text" name="musicaid" id="musicaid">
+    <button type="submit"> Obter </button>
+ 
 </body>
 </html>
+ 
