@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=<table border="1">
+        <tr>
+            <th>ID</th>
+                <th>title</th>
+                <th>Artist</th>
+                <th>Album</th>
+                <th>Genre</th>
+                <th>Duration_secs</th>
+                <th>release_date</th>
+                <th>likes</th>
+                <th>created_at</th>
+               
+        </tr>
+            <% for (let i = 0; i < songs.length; i++) { %>
+                <tr>
+                    <td><%= songs[i].id %></td>
+                    <td><%= songs[i].title %></td>
+                    <td><%= songs[i].Artist %></td>
+                    <td><%= songs[i].Album %></td>
+                    <td><%= songs[i].Genre %></td>
+                    <td><%= songs[i].Duration_secs %></td>
+                    <td><%= songs[i].release_date %></td>
+                    <td><%= songs[i].likes %></td>
+                    <td><%= songs[i].created_at %></td>
+                </tr>
+</head>
+<body>
+    
+</body>
+</html>

@@ -25,7 +25,7 @@ const connection = mysql.createConnection({
   host: '127.0.0.1',       // Endereço do servidor MySQL
   user: 'root',            // user do MySQL
   password: '',            // Senha do MySQL
-  database: 'psi',         // Nome da base de dados
+  database: 'songs',         // Nome da base de dados
   port: 3306
 });
 
@@ -107,14 +107,14 @@ app.get('/api/songs', (req, res) => {
 // Rota para adicionar uma música 
 app.post('/api/songs', (req, res) => {
 
-  const {title, artist, album, genre, duration_seconds, release_date, likes} = req.body;
+  const {title, artist, album, genre, duration_secs, release_date, likes} = req.body;
 
   // Validação dos campos obrigatórios
   if (!title || !artist) {
     return res.status(400).send('Campos obrigatórios: title, artist');
   }
 
-  const query = `INSERT INTO ${NOME_TABELA} (title, artist, album, genre, duration_seconds, release_date, likes) VALUES ("${title}", "${artist}", "${album}", "${genre}", "${duration_seconds}", "${release_date}", "${likes}")`;
+  const query = `INSERT INTO songs (title, artist, album, genre, duration_secs, release_date, likes) VALUES ("${title}", "${artist}", "${album}", "${genre}", "${duration_secs}", "${release_date}", "${likes}")`;
 
   connection.query(query, (err, results) => {
     if (err) {
@@ -491,14 +491,23 @@ app.get ('/',(req,res)=>{
 app.get ('/lista',(req,res)=>{
   res.render('songs')
 })
-app.get ('/preço',(req,res)=>{
-  res.render('price')
+app.get ('/price',(req,res)=>{
+  res.render('price',{price:pricePerLike})
 })
 app.get ('/form',(req,res)=>{
   res.render('new-songs')
 })
-/*** 
- 
-PARA ADICIONAR PARTE 2
 
-***/
+app.get('/lista' , (req,res) => {
+  axios.get('http://localhost:3000/api/songs')
+  .then(response =>{
+    console.log('Success:',response.data);
+    res.render('songs',{songs:response.data})
+  })
+  .catch((error)=>{
+    console.error('Error',error);
+  });
+});
+
+
+ 

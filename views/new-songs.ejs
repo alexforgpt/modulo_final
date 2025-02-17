@@ -3,36 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <title> Adicionar Música </title>
 </head>
 <body>
-    <form id="user-form">
-        <label for="username">Username</label>
-        <input type="text" name="username" id="ursername"value="<%= user.username%>">
-        <label for="email">Email</label>
-        <imput type="text" name="email" id="email" value="<%= user.birthdate %>">
-            <button type="submit">Submeter  </button>
-        
-    </form>
-
-    <script> 
-    document.getElementById('user.form').addEventListener('submit', function(event){
-        event.preventDefault();
-        const formData=new FormData (event.target);
-        const data =Object.fromEntries(formData.entries());
-        
-        axios.post ('/user', data)
-        .then (response=>{
-            console.log('Success:', response.data);
-            location.reload();
-        })
-        .catch((error)=> {
-            console.error ('Error:',error);
-        });
-    });
  
-
-        
+    <%- include("header") %>
+ 
+    <h1> Criar nova música </h1>
+ 
+    <form id="new-songs-form">
+        l<label for="title"> Título </label>
+        <input type="text" name="title" id="title">
+        <br>
+        <label for="artist"> Artista </label>
+        <input type="text" name="artist" id="artist">
+        <br>
+        <label for="genre"> Género </label>
+        <input type="text" name="genre" id="genre">
+        <br>
+        <label for="album"> Album </label>
+        <input type="text" name="album" id="album">
+        <br>
+        <label for="duration_seconds"> Duração(Segundos) </label>
+        <input type="text" name="duration_secs" id="duration_secs">
+        <br>
+        <label for="release_date"> Data de Lançamento </label>
+        <input type="date" name="release_date" id="release_date">
+        <br>
+        <label for="likes"> Nº de Likes </label>    
+        <input type="text" name="likes" id="likes">
+        <button type="submit"> Adicionar </button>
+    </form>
+ 
+    <script>
+        document.getElementById('new-songs-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+    
+            const formData = new FormData(event.target);
+            const data = Object.fromEntries(formData.entries());
+    
+            axios.post(`/api/songs`, data)
+            .then(response => {
+                console.log('Success:', response.data);
+                location.reload();
+                // Handle success (e.g., show a success message, redirect, etc.)
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                // Handle error (e.g., show an error message)
+            });
+        });
     </script>
-</body>
-</html>
