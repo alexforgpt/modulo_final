@@ -4,6 +4,9 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=<table border="1">
+        <%- include("header") %>
+
+        <table border="1"> 
         <tr>
             <th>ID</th>
                 <th>title</th>
@@ -20,14 +23,35 @@
                 <tr>
                     <td><%= songs[i].id %></td>
                     <td><%= songs[i].title %></td>
-                    <td><%= songs[i].Artist %></td>
-                    <td><%= songs[i].Album %></td>
-                    <td><%= songs[i].Genre %></td>
-                    <td><%= songs[i].Duration_secs %></td>
+                    <td><%= songs[i].artist %></td>
+                    <td><%= songs[i].album %></td>
+                    <td><%= songs[i].genre %></td>
+                    <td><%= songs[i].duration_seconds %></td>
                     <td><%= songs[i].release_date %></td>
                     <td><%= songs[i].likes %></td>
                     <td><%= songs[i].created_at %></td>
+                    <td> <button onclick="remover_musica(<%= songs[i].id %>)">Remover </button> </td>
                 </tr>
+                <% }%>
+
+                <script>
+ 
+                    function remover_musica(index){
+                    let id= index;
+                    axios.delete(`/api/songs/${id}`)
+                    .then(response => {
+                        console.log('Success:', response.data);
+                        location.reload();
+                        // Handle success (e.g., show a success message, redirect, etc.)
+                    })
+                    .catch((error) => {
+                        console.error('Error:', error);
+                        // Handle error (e.g., show an error message)
+                    });
+                };
+                </script>
+
+            </table>
 </head>
 <body>
     

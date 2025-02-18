@@ -4,6 +4,7 @@
 const express = require('express')
 const mysql = require('mysql2');
 const app = express()
+const axios = require('axios');
 
 // Constantes do Projeto
 const port = 3000
@@ -107,14 +108,14 @@ app.get('/api/songs', (req, res) => {
 // Rota para adicionar uma música 
 app.post('/api/songs', (req, res) => {
 
-  const {title, artist, album, genre, duration_secs, release_date, likes} = req.body;
+  const {title, artist, album, genre, duration_seconds, release_date, likes} = req.body;
 
   // Validação dos campos obrigatórios
   if (!title || !artist) {
     return res.status(400).send('Campos obrigatórios: title, artist');
   }
 
-  const query = `INSERT INTO songs (title, artist, album, genre, duration_secs, release_date, likes) VALUES ("${title}", "${artist}", "${album}", "${genre}", "${duration_secs}", "${release_date}", "${likes}")`;
+  const query = `INSERT INTO songs (title, artist, album, genre, duration_seconds, release_date, likes) VALUES ("${title}", "${artist}", "${album}", "${genre}", "${duration_seconds}", "${release_date}", "${likes}")`;
 
   connection.query(query, (err, results) => {
     if (err) {
@@ -488,9 +489,22 @@ app.get ('/',(req,res)=>{
   res.render('index')
 })
 
-app.get ('/lista',(req,res)=>{
-  res.render('songs')
+app.get ('/songs',(req,res)=>{
+  axios.get('/api/songs', data)
+  .then(response =>{
+      console.log('Success', response.data);
+      
+  res.render('songs', {songs: response.data})
+
+  })
+  .catch((error)=>{
+      console.log('Error:', error)
+  })
+
 })
+
+
+
 app.get ('/price',(req,res)=>{
   res.render('price',{price:pricePerLike})
 })
