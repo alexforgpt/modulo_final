@@ -522,6 +522,32 @@ app.get('/lista' , (req,res) => {
     console.error('Error',error);
   });
 });
+  
+app.get('/song/:id', (req, res) => {
+ 
+  const id = req.params.id;
+  const myquery = `SELECT * FROM ${NOME_TABELA} WHERE id=${id};`
+  connection.query(myquery, (err, results) => {
+    if (err) {
+      return res.status(500).send('Erro ao ir buscar a música: ' + err.message);
+    }
+    if (results.length != 0) {
+    const dinheiro = results[0].likes * pricePerLike;
+    axios.get(`https://api.lyrics.ovh/v1/${results[0].artist}/${results[0].title}`)
+    .then(response => {
+      console.log('Sucesso!', response.data);
+      res.render('song', {music_id:id , query:results, price: pricePerLike, lyrics: response.data});
+    })
+   
+    .catch (error => {
+      console.error('Erro', error);
+      res.render('song', {music_id: id , query:results, price: pricePerLike, lyrics: null});
+    })
+    } else {
+      res.sendStatus(404);
+    }
+  });
+})  
 
 
  
